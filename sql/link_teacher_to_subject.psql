@@ -1,0 +1,25 @@
+create or replace function 
+link_teacher_to_subject(teacherId int, subjectId int)
+returns boolean as
+$$
+declare 
+total int;
+
+begin
+
+select into total count(*) from teacher_subject
+where subject_id = subjectId;
+
+if (total = 0) then
+		
+		insert into teacher_subject (teacher_id, subject_id) values (teacherId, subjectId);
+	
+		return true;
+	else
+	
+		return false;
+	end if;
+
+end;
+$$
+Language plpgsql;
